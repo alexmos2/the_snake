@@ -101,28 +101,28 @@ class Snake(GameObject):
         """Обработка движения змейки"""
         head = self.get_head_position()
         if self.direction == UP:
-            if head[1] == 0:
+            if head[1] < GRID_SIZE:
                 self.positions.insert(0, (head[0], SCREEN_HEIGHT))
                 self.last = self.positions.pop()
             else:
                 self.positions.insert(0, (head[0], head[1] - GRID_SIZE))
                 self.last = self.positions.pop()
         elif self.direction == DOWN:
-            if head[1] == SCREEN_HEIGHT - GRID_SIZE:
+            if head[1] >= SCREEN_HEIGHT - GRID_SIZE:
                 self.positions.insert(0, (head[0], 0))
                 self.last = self.positions.pop()
             else:
                 self.positions.insert(0, (head[0], head[1] + GRID_SIZE))
                 self.last = self.positions.pop()
         elif self.direction == RIGHT:
-            if head[0] == SCREEN_WIDTH - GRID_SIZE:
+            if head[0] >= SCREEN_WIDTH - GRID_SIZE:
                 self.positions.insert(0, (0, head[1]))
                 self.last = self.positions.pop()
             else:
                 self.positions.insert(0, (head[0] + GRID_SIZE, head[1]))
                 self.last = self.positions.pop()
         elif self.direction == LEFT:
-            if head[0] == 0:
+            if head[0] < GRID_SIZE:
                 self.positions.insert(0, (SCREEN_WIDTH - GRID_SIZE, head[1]))
                 self.last = self.positions.pop()
             else:
@@ -197,7 +197,8 @@ def main():
 
     while True:
         clock.tick(SPEED)
-        # print(player.positions, ' ', player.direction)
+        # Тут опишите основную логику игры.
+        # ...
         handle_keys(player)
         player.update_direction()
         player.move()
@@ -209,15 +210,11 @@ def main():
         if len(player.positions) > 4:
             head = player.get_head_position()
             other_cells = player.positions[2:]
-            print(other_cells)
             if head in other_cells:
                 player.reset()
         player.draw(screen)
         apple.draw(screen)
         pygame.display.update()
-
-        # Тут опишите основную логику игры.
-        # ...
 
 
 if __name__ == '__main__':
