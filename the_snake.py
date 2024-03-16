@@ -50,7 +50,7 @@ class GameObject:
 
     def draw(self):
         """Отрисовка базового объекта"""
-        print(f'Вы забыли переопределить метод в классе'
+        print(f'Вы забыли переопределить метод в классе '
               f'{self.__class__.__name__}')
         raise NotImplementedError
 
