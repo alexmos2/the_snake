@@ -50,9 +50,9 @@ class GameObject:
 
     def draw(self):
         """Отрисовка базового объекта"""
-        print(f'Вы забыли переопределить метод в классе '
-              f'{self.__class__.__name__}')
-        raise NotImplementedError
+        error_text = f'Вы забыли переопределить метод в классе '\
+            f'{self.__class__.__name__}'
+        raise NotImplementedError(error_text)
 
     def draw_rectangle(self, x, y, surface):
         """Отрисовка квадратной области"""
@@ -108,19 +108,9 @@ class Snake(GameObject):
     def move(self):
         """Обработка движения змейки"""
         head = self.get_head_position()
-        x = head[0] + self.direction[0] * GRID_SIZE
-        y = head[1] + self.direction[1] * GRID_SIZE
-        new_head = (x, y)
-        if new_head[1] < 0:
-            self.positions.insert(0, (new_head[0], SCREEN_HEIGHT))
-        elif new_head[1] >= SCREEN_HEIGHT:
-            self.positions.insert(0, (new_head[0], 0))
-        elif new_head[0] >= SCREEN_WIDTH:
-            self.positions.insert(0, (0, new_head[1]))
-        elif new_head[0] < 0:
-            self.positions.insert(0, (SCREEN_WIDTH - GRID_SIZE, new_head[1]))
-        else:
-            self.positions.insert(0, (new_head[0], new_head[1]))
+        x = (head[0] + self.direction[0] * GRID_SIZE) % SCREEN_WIDTH
+        y = (head[1] + self.direction[1] * GRID_SIZE) % SCREEN_HEIGHT
+        self.positions.insert(0, (x, y))
         self.last = self.positions.pop()
 
     def draw(self, surface):
